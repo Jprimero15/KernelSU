@@ -22,7 +22,7 @@ curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh
 ```
 
 :::info
-[KernelSU 1.0 no longer supports non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is `v0.9.5`, please make sure to use the correct branch.
+[KernelSU 1.0 and later versions no longer support non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is `v0.9.5`, please make sure to use the correct version.
 :::
 
 Then, you should check if *kprobe* is enabled in your kernel config, if it is not, please add these configs to it:
@@ -55,21 +55,9 @@ If kprobe does not work in your kernel (may be an upstream or kernel bug below 4
 
 First, add KernelSU to your kernel source tree:
 
-::: code-group
-
-```sh[Latest tag(stable)]
-curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+```sh
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s v0.9.5
 ```
-
-```sh[ main branch(dev)]
-curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
-```
-
-```sh[Select tag(Such as v0.5.2)]
-curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s v0.5.2
-```
-
-:::
 
 Keep in mind that on some devices, your defconfig may be in `arch/arm64/configs` or in other cases `arch/arm64/configs/vendor/your_defconfig`. For whichever defconfig you're using, make sure to enable `CONFIG_KSU` with `y` to enable or `n` to disable it. For example, in case you chose to enable it, you defconfig should contain the following string:
 
