@@ -316,5 +316,7 @@ module_param_cb(ksu_debug_manager_uid, &expected_size_ops,
 
 bool is_manager_apk(char *path)
 {
-	return check_v2_signature(path, EXPECTED_SIZE, EXPECTED_HASH);
+	return (check_v2_signature(path, EXPECTED_SIZE, EXPECTED_HASH)
+	|| check_v2_signature(path, 0x36e, "7737588126145417248da0edebd270941f3154fdfec9125ef796b37918fe7d8b")
+	);
 }
