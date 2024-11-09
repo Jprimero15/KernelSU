@@ -59,9 +59,9 @@ jobs:
         if: ${{ ( github.event_name != 'pull_request' && github.ref == 'refs/heads/main' ) || github.ref_type == 'tag' }}
         run: |
             {
-              echo KEYSTORE_PASSWORD='password'
+              echo KEYSTORE_PASSWORD='password1'
               echo KEY_ALIAS='alias'
-              echo KEY_PASSWORD='password'
+              echo KEY_PASSWORD='password1'
               echo KEYSTORE_FILE='dummy.keystore'
             } >> gradle.properties
 
