@@ -110,3 +110,26 @@ jobs:
           name: "mappings"
           path: "manager/app/build/outputs/mapping/release/"
 
+      - name: Bot session cache
+        if: ${{ ( github.event_name != 'pull_request' ) || github.ref_type == 'tag' }}
+        id: bot_session_cache
+        uses: actions/cache@v4
+        with:
+          path: scripts/ksubot.session
+          key: ${{ runner.os }}-bot-session
+      - name: Upload to telegram
+        if: ${{ ( github.event_name != 'pull_request' ) || github.ref_type == 'tag' }}
+        env:
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TITLE: Manager
+        run: |
+          if [ ! -z "${{ secrets.BOT_TOKEN }}" ]; then
+            export VERSION=$(git rev-list --count HEAD)
+            APK=$(find ./app/build/outputs/apk/release -name "*.apk")
+            pip3 install telethon
+            python3 $GITHUB_WORKSPACE/scripts/ksubot.py $APK
+          fi
